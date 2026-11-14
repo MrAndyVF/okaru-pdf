@@ -1,4 +1,4 @@
-# okaru-pdf: compila la rama main del checkout (OKARU_PDF_REPO, por defecto ~/Projects/okaru-pdf).
+# okaru-pdf: compila la rama main del checkout (OKARU_PDF_REPO, por defecto ~/Projects/okaru-project/okaru-pdf).
 pkgname=okaru-pdf
 pkgver=1.0.0
 pkgrel=1
@@ -12,7 +12,7 @@ depends=("okaru-core${_core:+=$_core}" poppler-glib)
 makedepends=(meson ninja pkgconf okaru-core tomlplusplus nlohmann-json) # nlohmann-json: la piden las cabeceras del núcleo (okaru-core <= 1.2.4 no la declaraba)
 optdepends+=('cups: imprimir / printing')
 options=('!debug' '!lto')
-source=("okaru-pdf::git+file://${OKARU_PDF_REPO:-$HOME/Projects/okaru-pdf}#branch=main")
+source=("okaru-pdf::git+file://${OKARU_PDF_REPO:-$HOME/Projects/okaru-project/okaru-pdf}#branch=main")
 sha256sums=(SKIP)
 
 pkgver() {
