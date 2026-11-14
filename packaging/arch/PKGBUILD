@@ -1,0 +1,31 @@
+# okaru-pdf: compila la rama main del checkout (OKARU_PDF_REPO, por defecto ~/Projects/okaru-pdf).
+pkgname=okaru-pdf
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='OKARU (郁): el visor de documentos'
+arch=(x86_64)
+url='https://github.com/MrAndyVF/okaru-pdf'
+license=(MIT)
+# Sin ABI estable: depende de la versión exacta del núcleo con el que se compiló (la instalada al compilar).
+_core=$(pacman -Q okaru-core 2>/dev/null | cut -d' ' -f2)
+depends=("okaru-core${_core:+=$_core}" poppler-glib)
+makedepends=(meson ninja pkgconf okaru-core tomlplusplus nlohmann-json) # nlohmann-json: la piden las cabeceras del núcleo (okaru-core <= 1.2.4 no la declaraba)
+optdepends+=('cups: imprimir / printing')
+options=('!debug' '!lto')
+source=("okaru-pdf::git+file://${OKARU_PDF_REPO:-$HOME/Projects/okaru-pdf}#branch=main")
+sha256sums=(SKIP)
+
+pkgver() {
+  cd okaru-pdf
+  git describe --long --tags --abbrev=9 --match 'v*' | sed 's/^v//; s/-\([0-9]*\)-g/.r\1.g/'
+}
+
+build() {
+  arch-meson okaru-pdf build -Dtests=disabled
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+  install -Dm644 okaru-pdf/LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
