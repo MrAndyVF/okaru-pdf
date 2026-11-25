@@ -1,6 +1,6 @@
 # okaru-pdf: compila la rama main del checkout (OKARU_PDF_REPO, por defecto ~/Projects/okaru-project/okaru-pdf).
 pkgname=okaru-pdf
-pkgver=1.0.1
+pkgver=1.0.2
 pkgrel=1
 pkgdesc='OKARU (郁): el visor de documentos'
 arch=(x86_64)
